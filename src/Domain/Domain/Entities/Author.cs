@@ -15,5 +15,5 @@ public class Author : AdminAuditableBaseEntity
     public bool IsActive { get; set; }
 
     public Country? OriginCountry { get; set; }
-    public ICollection<Book> Books { get; set; } = new List<Book>();
+    public ICollection<Book>? Books { get; set; }
 }

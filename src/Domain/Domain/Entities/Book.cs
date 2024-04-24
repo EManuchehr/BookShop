@@ -13,14 +13,14 @@ public class Book : AdminAuditableBaseEntity
     public bool IsActive { get; set; }
     public decimal Price { get; set; }
     public uint StockQuantity { get; set; }
-    public int? Year { get; set; }
+    public DateOnly PublishedDate { get; set; }
     public int? PageCount { get; set; }
     public string? ImageUrl { get; set; }
 
     public Genre? Genre { get; set; }
     public Category? Category { get; set; }
     public Publisher? Publisher { get; set; }
-    public ICollection<Author> Authors { get; set; } = new List<Author>();
-    public ICollection<BookReview> Reviews { get; set; } = new List<BookReview>();
-    public ICollection<Copyright> Copyrights { get; set; } = new List<Copyright>();
+    public ICollection<Author>? BookAuthors { get; set; }
+    public ICollection<BookReview>? Reviews { get; set; } 
+    public ICollection<Copyright>? Copyrights { get; set; }
 }

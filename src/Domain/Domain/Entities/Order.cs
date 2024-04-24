@@ -10,5 +10,5 @@ public class Order : CommonAuditableBaseEntity
     public OrderStatusEnum Status { get; set; }
     
     public ShippingAddress? ShippingAddress { get; set; }
-    public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+    public ICollection<OrderItem>? OrderItems { get; set; }
 }

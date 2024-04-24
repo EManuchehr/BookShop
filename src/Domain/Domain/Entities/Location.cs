@@ -4,7 +4,6 @@ namespace Domain.Entities;
 
 public class Location : AdminAuditableBaseEntity
 {
-    public required string Name { get; set; }
     public required string Address { get; set; }
     public Guid CityId { get; set; }
     public Guid CountryId { get; set; }

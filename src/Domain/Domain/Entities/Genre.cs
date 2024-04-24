@@ -8,5 +8,5 @@ public class Genre : AdminAuditableBaseEntity
     public string? Description { get; set; }
     public bool IsActive { get; set; }
     
-    public ICollection<Book> Books { get; set; } = new List<Book>();
+    public ICollection<Book>? Books { get; set; }
 }

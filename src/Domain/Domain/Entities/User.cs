@@ -10,6 +10,6 @@ public class User : BaseEntity
     public required string Email { get; set; }
     public required string Password { get; set; }
     public bool IsActive { get; set; }
-    
-    public ICollection<ShippingAddress> ShippingAddresses { get; set; } = new List<ShippingAddress>();
+
+    public ICollection<ShippingAddress>? ShippingAddresses { get; set; }
 }
