@@ -3,7 +3,7 @@ using Domain.Enums;
 
 namespace Domain.Entities;
 
-public class Order : CommonAuditableBaseEntity
+public class Order : UserAuditableBaseEntity
 {
     public Guid ShippingAddressId { get; set; }
     public decimal TotalPrice { get; set; }

@@ -1,15 +1,17 @@
 using System.Reflection;
-using Application.Client.Common.Interfaces;
+using Application.Admin.Common.Interfaces;
 using Domain.Common.BaseEntities;
 using Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Contexts;
 
-public class ClientApplicationDbContext(DbContextOptions<ClientApplicationDbContext> options)
-    : DbContext(options), IApplicationDbContext
+public class AdminApplicationDbContext(DbContextOptions<AdminApplicationDbContext> options)
+    : IdentityDbContext<IdentityUser>(options), IApplicationDbContext
 {
-    public DbSet<User> Users { get; set; } = null!;
+    public new DbSet<User> Users { get; set; } = null!;
     public DbSet<Book> Books { get; set; } = null!;
     public DbSet<City> Cities { get; set; } = null!;
     public DbSet<Order> Orders { get; set; } = null!;
@@ -32,10 +34,10 @@ public class ClientApplicationDbContext(DbContextOptions<ClientApplicationDbCont
             switch (entry.State)
             {
                 case EntityState.Added:
-                    entry.Entity.CreatedDateTime = DateTime.UtcNow;
+                    entry.Entity.CreatedDateTime = DateTime.Now;
                     break;
                 case EntityState.Modified:
-                    entry.Entity.UpdatedDateTime = DateTime.UtcNow;
+                    entry.Entity.UpdatedDateTime = DateTime.Now;
                     break;
             }
         }
@@ -45,11 +47,11 @@ public class ClientApplicationDbContext(DbContextOptions<ClientApplicationDbCont
             switch (entry.State)
             {
                 case EntityState.Added:
-                    entry.Entity.CreatedDateTime = DateTime.UtcNow;
+                    entry.Entity.CreatedDateTime = DateTime.Now;
                     entry.Entity.CreatedByUserId = Guid.Empty;
                     break;
                 case EntityState.Modified:
-                    entry.Entity.UpdatedDateTime = DateTime.UtcNow;
+                    entry.Entity.UpdatedDateTime = DateTime.Now;
                     entry.Entity.UpdatedByUserId = Guid.Empty;
                     break;
             }
@@ -60,6 +62,14 @@ public class ClientApplicationDbContext(DbContextOptions<ClientApplicationDbCont
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<IdentityUser<Guid>>().HasKey(x => x.Id);
+        modelBuilder.Entity<IdentityRole<Guid>>().HasKey(x => x.Id);
+        modelBuilder.Entity<IdentityUserRole<string>>().HasNoKey();
+        modelBuilder.Entity<IdentityUserClaim<Guid>>().HasKey(x => x.Id);
+        modelBuilder.Entity<IdentityUserLogin<string>>().HasNoKey();
+        modelBuilder.Entity<IdentityUserToken<string>>().HasNoKey();
+        modelBuilder.Entity<IdentityRoleClaim<Guid>>().HasKey(x => x.Id);
+
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         modelBuilder.HasDefaultSchema("BookStore");
     }

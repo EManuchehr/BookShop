@@ -1,16 +1,16 @@
-﻿using Asp.Versioning;
-using System.Reflection;
-using Microsoft.AspNetCore.Http;
+﻿using System.Reflection;
+using Application.Admin.Common.Interfaces;
+using Asp.Versioning;
 using Asp.Versioning.Conventions;
 using Microsoft.AspNetCore.Builder;
-using Application.Client.Common.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Application.Client;
+namespace Application.Admin;
 
 public static class EndpointServiceCollection
 {
-    public static void AddClientEndpoints(this IServiceCollection services)
+    public static void AddAdminEndpoints(this IServiceCollection services)
     {
         services.AddApiVersioning(options =>
         {
@@ -18,16 +18,12 @@ public static class EndpointServiceCollection
             options.ReportApiVersions = true;
             options.AssumeDefaultVersionWhenUnspecified = true;
             options.ApiVersionReader = new UrlSegmentApiVersionReader();
-        }).AddApiExplorer(options =>
-        {
-            options.GroupNameFormat = "'v'VVV";
-            options.SubstituteApiVersionInUrl = true;
         });
 
         AddEndpointsFromAssembly(Assembly.GetExecutingAssembly(), services);
     }
 
-    public static void UseClientEndpoints(this WebApplication app)
+    public static void UseAdminEndpoints(this WebApplication app)
     {
         using var scope = app.Services.CreateScope();
 
@@ -35,12 +31,12 @@ public static class EndpointServiceCollection
             .HasApiVersion(1, 0)
             .Build();
 
-        var mapGroup = app.MapGroup("api/client/v{version:apiVersion}")
+        var mapGroup = app.MapGroup("api/admin/")
             .WithApiVersionSet(versionSet)
             .HasApiVersion(1, 0)
-            .WithTags("Client");
+            .WithTags("Admin");
 
-        var endpointServices = scope.ServiceProvider.GetServices<IClientEndpoint>();
+        var endpointServices = scope.ServiceProvider.GetServices<IAdminEndpoint>();
 
         foreach (var endpointService in endpointServices)
         {
@@ -53,12 +49,12 @@ public static class EndpointServiceCollection
         var clientEndpoints = assembly
             .GetTypes()
             .Where(x => x is { IsAbstract: false, IsInterface: false, BaseType: not null } &&
-                        x.GetInterfaces().Contains(typeof(IClientEndpoint)))
+                        x.GetInterfaces().Contains(typeof(IAdminEndpoint)))
             .ToList();
 
         foreach (var clientEndpoint in clientEndpoints)
         {
-            services.AddSingleton(typeof(IClientEndpoint), clientEndpoint);
+            services.AddSingleton(typeof(IAdminEndpoint), clientEndpoint);
         }
     }
 }

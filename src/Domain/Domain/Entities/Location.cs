@@ -2,7 +2,7 @@ using Domain.Common.BaseEntities;
 
 namespace Domain.Entities;
 
-public class Location : AdminAuditableBaseEntity
+public class Location : CommonAuditableBaseEntity
 {
     public required string Address { get; set; }
     public Guid CityId { get; set; }

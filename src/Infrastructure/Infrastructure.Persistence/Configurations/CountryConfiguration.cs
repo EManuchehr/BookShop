@@ -20,7 +20,8 @@ public class CountryConfiguration : IEntityTypeConfiguration<Country>
             Id = new Guid("2757E51B-80F6-4AEB-86DA-9369CCD9B8A1"),
             Name = "Tajikistan",
             Code = "TJ",
-            IsActive = true
+            IsActive = true,
+            CreatedByAdminUserId = new Guid("94AC6559-0072-4065-A217-2526FEDEC6B0")
         });
     }
 }

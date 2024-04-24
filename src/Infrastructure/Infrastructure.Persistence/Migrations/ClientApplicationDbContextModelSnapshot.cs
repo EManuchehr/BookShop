@@ -218,10 +218,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<Guid>("BookId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("CreatedByAdminUserId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("CreatedByUserId")
+                    b.Property<Guid>("CreatedByUserId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDateTime")
@@ -235,9 +232,6 @@ namespace Infrastructure.Persistence.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
-                    b.Property<Guid?>("UpdatedByAdminUserId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid?>("UpdatedByUserId")
                         .HasColumnType("uuid");
 
@@ -248,11 +242,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.HasIndex("CreatedByAdminUserId");
-
                     b.HasIndex("CreatedByUserId");
-
-                    b.HasIndex("UpdatedByAdminUserId");
 
                     b.HasIndex("UpdatedByUserId");
 
@@ -341,6 +331,28 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasIndex("UpdatedByAdminUserId");
 
                     b.ToTable("Cities", "BookStore");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("30395d79-364f-4443-9ef7-a6f2b0dbf48f"),
+                            Code = "DUS",
+                            CountryId = new Guid("2757e51b-80f6-4aeb-86da-9369ccd9b8a1"),
+                            CreatedByAdminUserId = new Guid("94ac6559-0072-4065-a217-2526fedec6b0"),
+                            CreatedDateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
+                            Name = "Dushanbe"
+                        },
+                        new
+                        {
+                            Id = new Guid("4bdc5646-122f-425d-81b4-5a0e365366e8"),
+                            Code = "KHU",
+                            CountryId = new Guid("2757e51b-80f6-4aeb-86da-9369ccd9b8a1"),
+                            CreatedByAdminUserId = new Guid("94ac6559-0072-4065-a217-2526fedec6b0"),
+                            CreatedDateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
+                            Name = "Khujand"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Copyright", b =>
@@ -426,6 +438,17 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasIndex("UpdatedByAdminUserId");
 
                     b.ToTable("Countries", "BookStore");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("2757e51b-80f6-4aeb-86da-9369ccd9b8a1"),
+                            Code = "TJ",
+                            CreatedByAdminUserId = new Guid("94ac6559-0072-4065-a217-2526fedec6b0"),
+                            CreatedDateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
+                            Name = "Tajikistan"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Genre", b =>
@@ -483,7 +506,10 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<Guid>("CountryId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("CreatedByAdminUserId")
+                    b.Property<Guid?>("CreatedByAdminUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CreatedByUserId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDateTime")
@@ -505,6 +531,9 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<Guid?>("UpdatedByAdminUserId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("UpdatedByUserId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime?>("UpdatedDateTime")
                         .HasColumnType("timestamp with time zone");
 
@@ -516,7 +545,11 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("CreatedByAdminUserId");
 
+                    b.HasIndex("CreatedByUserId");
+
                     b.HasIndex("UpdatedByAdminUserId");
+
+                    b.HasIndex("UpdatedByUserId");
 
                     b.ToTable("Locations", "BookStore");
                 });
@@ -527,10 +560,7 @@ namespace Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("CreatedByAdminUserId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("CreatedByUserId")
+                    b.Property<Guid>("CreatedByUserId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDateTime")
@@ -545,9 +575,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("numeric");
 
-                    b.Property<Guid?>("UpdatedByAdminUserId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid?>("UpdatedByUserId")
                         .HasColumnType("uuid");
 
@@ -556,13 +583,9 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatedByAdminUserId");
-
                     b.HasIndex("CreatedByUserId");
 
                     b.HasIndex("ShippingAddressId");
-
-                    b.HasIndex("UpdatedByAdminUserId");
 
                     b.HasIndex("UpdatedByUserId");
 
@@ -739,6 +762,18 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users", "BookStore");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("94ac6559-0072-4065-a217-2526fedec6b0"),
+                            CreatedDateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "",
+                            FirstName = "Admin",
+                            IsActive = false,
+                            LastName = "Admin",
+                            Password = ""
+                        });
                 });
 
             modelBuilder.Entity("AuthorBook", b =>
@@ -863,17 +898,11 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.User", "CreatedByAdminUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedByAdminUserId");
-
                     b.HasOne("Domain.Entities.User", "CreatedByUser")
                         .WithMany()
-                        .HasForeignKey("CreatedByUserId");
-
-                    b.HasOne("Domain.Entities.User", "UpdatedByAdminUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedByAdminUserId");
+                        .HasForeignKey("CreatedByUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Domain.Entities.User", "UpdatedByUser")
                         .WithMany()
@@ -881,11 +910,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.Navigation("Book");
 
-                    b.Navigation("CreatedByAdminUser");
-
                     b.Navigation("CreatedByUser");
-
-                    b.Navigation("UpdatedByAdminUser");
 
                     b.Navigation("UpdatedByUser");
                 });
@@ -1005,38 +1030,11 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasOne("Domain.Entities.User", "CreatedByAdminUser")
                         .WithMany()
-                        .HasForeignKey("CreatedByAdminUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.User", "UpdatedByAdminUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedByAdminUserId");
-
-                    b.Navigation("City");
-
-                    b.Navigation("Country");
-
-                    b.Navigation("CreatedByAdminUser");
-
-                    b.Navigation("UpdatedByAdminUser");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Order", b =>
-                {
-                    b.HasOne("Domain.Entities.User", "CreatedByAdminUser")
-                        .WithMany()
                         .HasForeignKey("CreatedByAdminUserId");
 
                     b.HasOne("Domain.Entities.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedByUserId");
-
-                    b.HasOne("Domain.Entities.ShippingAddress", "ShippingAddress")
-                        .WithMany()
-                        .HasForeignKey("ShippingAddressId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
 
                     b.HasOne("Domain.Entities.User", "UpdatedByAdminUser")
                         .WithMany()
@@ -1046,13 +1044,40 @@ namespace Infrastructure.Persistence.Migrations
                         .WithMany()
                         .HasForeignKey("UpdatedByUserId");
 
+                    b.Navigation("City");
+
+                    b.Navigation("Country");
+
                     b.Navigation("CreatedByAdminUser");
 
                     b.Navigation("CreatedByUser");
 
-                    b.Navigation("ShippingAddress");
-
                     b.Navigation("UpdatedByAdminUser");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Order", b =>
+                {
+                    b.HasOne("Domain.Entities.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedByUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.ShippingAddress", "ShippingAddress")
+                        .WithMany()
+                        .HasForeignKey("ShippingAddressId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedByUserId");
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("ShippingAddress");
 
                     b.Navigation("UpdatedByUser");
                 });

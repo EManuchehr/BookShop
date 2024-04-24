@@ -18,4 +18,5 @@ public enum ResponseErrorCode
     UserTemporarilyBlocked = 15,
     TokenRefreshExpired = 16,
     UnhandledException = 17,
+    NotFound = 18,
 }

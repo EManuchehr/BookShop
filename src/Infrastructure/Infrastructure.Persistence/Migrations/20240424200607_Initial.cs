@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
@@ -229,7 +231,9 @@ namespace Infrastructure.Persistence.Migrations
                     Longitude = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
                     CreatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    CreatedByAdminUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedByUserId = table.Column<Guid>(type: "uuid", nullable: true),
+                    UpdatedByUserId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedByAdminUserId = table.Column<Guid>(type: "uuid", nullable: true),
                     UpdatedByAdminUserId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
@@ -254,11 +258,22 @@ namespace Infrastructure.Persistence.Migrations
                         column: x => x.CreatedByAdminUserId,
                         principalSchema: "BookStore",
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Locations_Users_CreatedByUserId",
+                        column: x => x.CreatedByUserId,
+                        principalSchema: "BookStore",
+                        principalTable: "Users",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Locations_Users_UpdatedByAdminUserId",
                         column: x => x.UpdatedByAdminUserId,
+                        principalSchema: "BookStore",
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Locations_Users_UpdatedByUserId",
+                        column: x => x.UpdatedByUserId,
                         principalSchema: "BookStore",
                         principalTable: "Users",
                         principalColumn: "Id");
@@ -417,10 +432,8 @@ namespace Infrastructure.Persistence.Migrations
                     Status = table.Column<int>(type: "integer", nullable: false),
                     CreatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    CreatedByUserId = table.Column<Guid>(type: "uuid", nullable: true),
-                    UpdatedByUserId = table.Column<Guid>(type: "uuid", nullable: true),
-                    CreatedByAdminUserId = table.Column<Guid>(type: "uuid", nullable: true),
-                    UpdatedByAdminUserId = table.Column<Guid>(type: "uuid", nullable: true)
+                    CreatedByUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UpdatedByUserId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -433,23 +446,12 @@ namespace Infrastructure.Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Orders_Users_CreatedByAdminUserId",
-                        column: x => x.CreatedByAdminUserId,
-                        principalSchema: "BookStore",
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Orders_Users_CreatedByUserId",
                         column: x => x.CreatedByUserId,
                         principalSchema: "BookStore",
                         principalTable: "Users",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Orders_Users_UpdatedByAdminUserId",
-                        column: x => x.UpdatedByAdminUserId,
-                        principalSchema: "BookStore",
-                        principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Orders_Users_UpdatedByUserId",
                         column: x => x.UpdatedByUserId,
@@ -541,10 +543,8 @@ namespace Infrastructure.Persistence.Migrations
                     Review = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     CreatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    CreatedByUserId = table.Column<Guid>(type: "uuid", nullable: true),
-                    UpdatedByUserId = table.Column<Guid>(type: "uuid", nullable: true),
-                    CreatedByAdminUserId = table.Column<Guid>(type: "uuid", nullable: true),
-                    UpdatedByAdminUserId = table.Column<Guid>(type: "uuid", nullable: true)
+                    CreatedByUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UpdatedByUserId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -557,23 +557,12 @@ namespace Infrastructure.Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BookReviews_Users_CreatedByAdminUserId",
-                        column: x => x.CreatedByAdminUserId,
-                        principalSchema: "BookStore",
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_BookReviews_Users_CreatedByUserId",
                         column: x => x.CreatedByUserId,
                         principalSchema: "BookStore",
                         principalTable: "Users",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_BookReviews_Users_UpdatedByAdminUserId",
-                        column: x => x.UpdatedByAdminUserId,
-                        principalSchema: "BookStore",
-                        principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_BookReviews_Users_UpdatedByUserId",
                         column: x => x.UpdatedByUserId,
@@ -670,6 +659,28 @@ namespace Infrastructure.Persistence.Migrations
                         principalColumn: "Id");
                 });
 
+            migrationBuilder.InsertData(
+                schema: "BookStore",
+                table: "Users",
+                columns: new[] { "Id", "CreatedDateTime", "Email", "FirstName", "IsActive", "LastName", "MiddleName", "Password", "UpdatedDateTime" },
+                values: new object[] { new Guid("94ac6559-0072-4065-a217-2526fedec6b0"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "", "Admin", false, "Admin", null, "", null });
+
+            migrationBuilder.InsertData(
+                schema: "BookStore",
+                table: "Countries",
+                columns: new[] { "Id", "Code", "CreatedByAdminUserId", "CreatedDateTime", "IsActive", "Name", "UpdatedByAdminUserId", "UpdatedDateTime" },
+                values: new object[] { new Guid("2757e51b-80f6-4aeb-86da-9369ccd9b8a1"), "TJ", new Guid("94ac6559-0072-4065-a217-2526fedec6b0"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "Tajikistan", null, null });
+
+            migrationBuilder.InsertData(
+                schema: "BookStore",
+                table: "Cities",
+                columns: new[] { "Id", "Code", "CountryId", "CreatedByAdminUserId", "CreatedDateTime", "IsActive", "Name", "UpdatedByAdminUserId", "UpdatedDateTime" },
+                values: new object[,]
+                {
+                    { new Guid("30395d79-364f-4443-9ef7-a6f2b0dbf48f"), "DUS", new Guid("2757e51b-80f6-4aeb-86da-9369ccd9b8a1"), new Guid("94ac6559-0072-4065-a217-2526fedec6b0"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "Dushanbe", null, null },
+                    { new Guid("4bdc5646-122f-425d-81b4-5a0e365366e8"), "KHU", new Guid("2757e51b-80f6-4aeb-86da-9369ccd9b8a1"), new Guid("94ac6559-0072-4065-a217-2526fedec6b0"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "Khujand", null, null }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AuthorBook_BooksId",
                 schema: "BookStore",
@@ -743,22 +754,10 @@ namespace Infrastructure.Persistence.Migrations
                 column: "BookId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookReviews_CreatedByAdminUserId",
-                schema: "BookStore",
-                table: "BookReviews",
-                column: "CreatedByAdminUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_BookReviews_CreatedByUserId",
                 schema: "BookStore",
                 table: "BookReviews",
                 column: "CreatedByUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BookReviews_UpdatedByAdminUserId",
-                schema: "BookStore",
-                table: "BookReviews",
-                column: "UpdatedByAdminUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BookReviews_UpdatedByUserId",
@@ -864,10 +863,22 @@ namespace Infrastructure.Persistence.Migrations
                 column: "CreatedByAdminUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Locations_CreatedByUserId",
+                schema: "BookStore",
+                table: "Locations",
+                column: "CreatedByUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Locations_UpdatedByAdminUserId",
                 schema: "BookStore",
                 table: "Locations",
                 column: "UpdatedByAdminUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Locations_UpdatedByUserId",
+                schema: "BookStore",
+                table: "Locations",
+                column: "UpdatedByUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_BookId",
@@ -894,12 +905,6 @@ namespace Infrastructure.Persistence.Migrations
                 column: "UpdatedByUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_CreatedByAdminUserId",
-                schema: "BookStore",
-                table: "Orders",
-                column: "CreatedByAdminUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Orders_CreatedByUserId",
                 schema: "BookStore",
                 table: "Orders",
@@ -910,12 +915,6 @@ namespace Infrastructure.Persistence.Migrations
                 schema: "BookStore",
                 table: "Orders",
                 column: "ShippingAddressId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Orders_UpdatedByAdminUserId",
-                schema: "BookStore",
-                table: "Orders",
-                column: "UpdatedByAdminUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_UpdatedByUserId",

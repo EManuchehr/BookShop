@@ -3,7 +3,7 @@ using Domain.Enums;
 
 namespace Domain.Entities;
 
-public class BookReview : CommonAuditableBaseEntity
+public class BookReview : UserAuditableBaseEntity
 {
     public Guid BookId { get; set; }
     public BookRatingEnum Rating { get; set; }

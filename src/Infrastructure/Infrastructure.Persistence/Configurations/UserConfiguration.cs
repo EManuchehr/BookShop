@@ -8,8 +8,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        
-        
+        builder.HasKey(x => x.Id);
+
         builder.Property(x => x.FirstName)
             .HasMaxLength(20)
             .IsRequired();
@@ -33,5 +33,18 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .WithOne(y => y.CreatedByUser)
             .HasForeignKey(z => z.CreatedByUserId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasData(new List<User>()
+            {
+                new User
+                {
+                    Id = new Guid("94AC6559-0072-4065-A217-2526FEDEC6B0"),
+                    FirstName = "Admin",
+                    LastName = "Admin",
+                    Email = "",
+                    Password = "",
+                }
+            }
+        );
     }
 }

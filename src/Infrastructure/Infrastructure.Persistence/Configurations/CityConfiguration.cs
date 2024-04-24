@@ -30,7 +30,8 @@ public class CityConfiguration : IEntityTypeConfiguration<City>
                 Name = "Dushanbe",
                 Code = "DUS",
                 CountryId = new Guid("2757E51B-80F6-4AEB-86DA-9369CCD9B8A1"),
-                IsActive = true
+                IsActive = true,
+                CreatedByAdminUserId = new Guid("94AC6559-0072-4065-A217-2526FEDEC6B0")
             },
             new City
             {
@@ -38,7 +39,8 @@ public class CityConfiguration : IEntityTypeConfiguration<City>
                 Name = "Khujand",
                 Code = "KHU",
                 CountryId = new Guid("2757E51B-80F6-4AEB-86DA-9369CCD9B8A1"),
-                IsActive = true
+                IsActive = true,
+                CreatedByAdminUserId = new Guid("94AC6559-0072-4065-A217-2526FEDEC6B0")
             });
     }
 }
