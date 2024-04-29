@@ -2,6 +2,7 @@ namespace Application.Client.Features.Locations.GetLocations;
 
 public record GetLocationsResponse
 {
+    public Guid Id { get; init; }
     public required string Address { get; init; }
     public bool IsActive { get; init; }
     public required string Latitude { get; init; }

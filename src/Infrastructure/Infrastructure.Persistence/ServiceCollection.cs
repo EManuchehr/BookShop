@@ -35,4 +35,14 @@ public static class ServiceCollection
 
         return services;
     }
+
+    public static IServiceCollection AddIdentityPersistenceInfrastructureLayer(this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        services.AddDbContext<IdentityApplicationDbContext>(options =>
+            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),
+                b => b.MigrationsAssembly(typeof(IdentityApplicationDbContext).Assembly.FullName)));
+
+        return services;
+    }
 }

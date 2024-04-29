@@ -5,22 +5,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Contexts;
 
-public class IdentityApplicationDbContext(
-    DbContextOptions<IdentityApplicationDbContext> options)
-    : IdentityDbContext<IdentityUser>(options)
+public class IdentityApplicationDbContext(DbContextOptions<IdentityApplicationDbContext> options) : DbContext(options)
 {
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
         base.OnModelCreating(builder);
+        builder.HasDefaultSchema("Identity");
 
-        builder.Entity<IdentityUser>().ToTable("Users");
-        builder.Entity<IdentityRole>().ToTable("Roles");
-        builder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
-        builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
-        builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
-        builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
-        builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
+        builder.Entity<IdentityUser<Guid>>().ToTable("Users").HasIndex(x => x.Id);
+        builder.Entity<IdentityRole<Guid>>().ToTable("Roles").HasIndex(x => x.Id);
+        builder.Entity<IdentityUserRole<Guid>>().ToTable("UserRoles").HasNoKey();
+        builder.Entity<IdentityUserClaim<Guid>>().ToTable("UserClaims").HasIndex(x => x.Id);
+        builder.Entity<IdentityUserLogin<Guid>>().ToTable("UserLogins").HasNoKey();
+        builder.Entity<IdentityUserToken<Guid>>().ToTable("UserTokens").HasNoKey();
+        builder.Entity<IdentityRoleClaim<Guid>>().ToTable("RoleClaims").HasIndex(x => x.Id);
     }
 }

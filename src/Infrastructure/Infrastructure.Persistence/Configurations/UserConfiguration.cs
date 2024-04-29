@@ -30,7 +30,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired();
 
         builder.HasMany(x => x.ShippingAddresses)
-            .WithOne(y => y.CreatedByUser)
+            .WithOne()
             .HasForeignKey(z => z.CreatedByUserId)
             .OnDelete(DeleteBehavior.Restrict);
 

@@ -1,8 +1,9 @@
 using Domain.Common.BaseEntities;
+using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Entities;
 
-public class User : BaseEntity
+public class User : IdentityUser<Guid>
 {
     public required string FirstName { get; set; }
     public required string LastName { get; set; }

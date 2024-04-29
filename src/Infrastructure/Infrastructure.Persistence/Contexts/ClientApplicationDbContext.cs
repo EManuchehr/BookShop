@@ -9,7 +9,6 @@ namespace Infrastructure.Persistence.Contexts;
 public class ClientApplicationDbContext(DbContextOptions<ClientApplicationDbContext> options)
     : DbContext(options), IApplicationDbContext
 {
-    public DbSet<User> Users { get; set; } = null!;
     public DbSet<Book> Books { get; set; } = null!;
     public DbSet<City> Cities { get; set; } = null!;
     public DbSet<Order> Orders { get; set; } = null!;

@@ -11,7 +11,6 @@ namespace Infrastructure.Persistence.Contexts;
 public class AdminApplicationDbContext(DbContextOptions<AdminApplicationDbContext> options)
     : IdentityDbContext<IdentityUser>(options), IApplicationDbContext
 {
-    public new DbSet<User> Users { get; set; } = null!;
     public DbSet<Book> Books { get; set; } = null!;
     public DbSet<City> Cities { get; set; } = null!;
     public DbSet<Order> Orders { get; set; } = null!;
